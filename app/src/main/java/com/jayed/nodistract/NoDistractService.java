@@ -34,6 +34,8 @@ public class NoDistractService extends AccessibilityService {
         boolean hasReelsText = false;
         boolean hasLike = false;
         boolean hasComment = false;
+        boolean hasImageViewer = false;
+        boolean hasProfileTabs = false;
     }
 
     @Override
@@ -46,28 +48,24 @@ public class NoDistractService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        // Check if the user paused protection in the main app
         SharedPreferences prefs = getSharedPreferences("NoDistractPrefs", MODE_PRIVATE);
         if (!prefs.getBoolean("isProtectionActive", true)) {
             return;
         }
 
         if (event == null || event.getPackageName() == null ||
-                !event.getPackageName().toString().equals("com.facebook.katana")) {  // for now I only added facebook app
+                !event.getPackageName().toString().equals("com.facebook.katana")) {
             return;
         }
 
         long currentTime = System.currentTimeMillis();
 
-      // detect scroll but still unstable :(
         if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED) {
             if (allowCurrentReel && (currentTime - allowReelTime > 1500)) {
-                Log.d(TAG, "swiped");
                 allowCurrentReel = false;
             }
         }
 
-        // debounce to save power
         if (currentTime - lastBlockTime < 1000) {
             return;
         }
@@ -81,12 +79,12 @@ public class NoDistractService extends AccessibilityService {
             UIState state = new UIState();
             scanUI(rootNode, state);
 
-            boolean isReelPlayer = false;
-
-          //tab detection
-            if (!state.hasHomeTab && state.hasReelsText && state.hasLike && state.hasComment) {
-                isReelPlayer = true;
-            }
+            boolean isReelPlayer = !state.hasHomeTab
+                    && state.hasReelsText
+                    && state.hasLike
+                    && state.hasComment
+                    && !state.hasImageViewer
+                    && !state.hasProfileTabs;
 
             if (isReelTab || isReelPlayer) {
                 if (!allowCurrentReel) {
@@ -96,7 +94,6 @@ public class NoDistractService extends AccessibilityService {
                     showOverlay();
                 }
             } else {
-
                 if (state.hasHomeTab && !isReelTab) {
                     allowCurrentReel = false;
                 }
@@ -112,15 +109,42 @@ public class NoDistractService extends AccessibilityService {
         if (node == null) return;
 
         CharSequence desc = node.getContentDescription();
+        CharSequence text = node.getText();
 
         if (desc != null) {
             String d = desc.toString().toLowerCase();
-            if (d.equals("home") || d.contains("home, tab")) state.hasHomeTab = true;
-            if (d.contains("reels")) state.hasReelsText = true;
-            if (d.equals("like") || d.contains("like button")) state.hasLike = true;
-            if (d.equals("comment") || d.contains("comment button")) state.hasComment = true;
+
+            if (d.equals("home") || d.contains("home, tab") || d.startsWith("home,"))
+                state.hasHomeTab = true;
+
+            if (d.contains("reels"))
+                state.hasReelsText = true;
+
+            if ((d.contains("like") && !d.contains("unlike")) || d.contains("reactions"))
+                state.hasLike = true;
+
+            if (d.contains("comment"))
+                state.hasComment = true;
+
+            if (d.contains("photo viewer") || d.contains("image viewer")
+                    || d.contains("carousel") || d.contains("gallery")
+                    || d.contains("tap to view photo") || d.contains("swipe to see more photos"))
+                state.hasImageViewer = true;
         }
 
+        if (text != null) {
+            String t = text.toString().toLowerCase();
+
+            if (t.startsWith("reels"))
+                state.hasReelsText = true;
+
+            if (t.equals("posts") || t.equals("tagged") || t.equals("about")
+                    || t.equals("photos") || t.equals("events")
+                    || t.equals("videos") || t.equals("friends"))
+                state.hasProfileTabs = true;
+        }
+
+        if (state.hasProfileTabs) return;
         if (state.hasHomeTab && state.hasReelsText && state.hasLike && state.hasComment) return;
 
         for (int i = 0; i < node.getChildCount(); i++) {
