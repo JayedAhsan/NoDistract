@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NoDistract</string>
+    <string name="accessibility_service_description">NoDistract</string>
+    <string name="keep_your_focus_intact_nenable_the_accessibility_service_to_automatically_block_facebook_reels">Keep your focus intact.\nEnable the accessibility service to automatically block Facebook Reels.</string>
+    <string name="nodistract">NoDistract</string>
+    <string name="enable_protection">Enable Protection</string>
+    <string name="about">About</string>
+</resources>

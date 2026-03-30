@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nodistract"
+            android:textSize="44sp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/app_title"
+            android:layout_marginBottom="16dp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/keep_your_focus_intact_nenable_the_accessibility_service_to_automatically_block_facebook_reels"
+            android:textSize="18sp"
+            android:lineSpacingExtra="6dp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="64dp"
+            android:gravity="center" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEnable"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_power"
+            app:iconTint="?attr/colorOnSurfaceVariant"
+            app:iconSize="64dp"
+            app:cornerRadius="50dp"
+            app:backgroundTint="?attr/colorSurfaceVariant"
+            android:contentDescription="@string/enable_protection" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingtoolbar.FloatingToolbarLayout
+        android:id="@+id/floating_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="48dp"
+        app:backgroundTint="?attr/colorSurfaceContainerHigh"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp">
+
+            <ImageButton
+                android:id="@+id/btnInfo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_info"
+                app:tint="?attr/colorOnSurface"
+                android:contentDescription="App Info" />
+
+            <ImageButton
+                android:id="@+id/btnSource"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_source"
+                app:tint="?attr/colorOnSurface"
+                android:contentDescription="Source Code" />
+
+            <ImageButton
+                android:id="@+id/btnDeveloper"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_dev"
+                app:tint="?attr/colorOnSurface"
+                android:contentDescription="Developer Profile" />
+
+        </LinearLayout>
+
+    </com.google.android.material.floatingtoolbar.FloatingToolbarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
