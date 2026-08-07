@@ -12,8 +12,8 @@ android {
         applicationId = "com.jayed.nodistract"
         minSdk = 24
         targetSdk = 36
-        versionCode = 20260330
-        versionName = "2026.3.30"
+        versionCode = 20260808
+        versionName = "2026.8.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

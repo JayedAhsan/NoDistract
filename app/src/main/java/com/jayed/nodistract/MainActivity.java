@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
             new MaterialAlertDialogBuilder(this)
                     .setTitle("App Information")
                     .setMessage("Name: NoDistract\n" +
-                            "Version: 2026.3.30\n" +
+                            "Version: 2026.8.8\n" +
                             "Developer: Jayed Ahsan Saad\n\n" +
                             "Licensed Under Apache 2.0")
                     .setPositiveButton("Close", (dialog, which) -> dialog.dismiss())
