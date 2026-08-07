@@ -5,4 +5,8 @@
     <string name="nodistract">NoDistract</string>
     <string name="enable_protection">Enable Protection</string>
     <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="disable_show_anyway_title">Disable \"Show it anyway\"</string>
+    <string name="disable_show_anyway_desc">Permanently remove the bypass button on the block overlay for strict focus.</string>
+    <string name="done">Done</string>
 </resources>

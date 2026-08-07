@@ -210,6 +210,14 @@ public class NoDistractService extends AccessibilityService {
         Button btnBack = overlayView.findViewById(R.id.btnBack);
         Button btnShowAnyway = overlayView.findViewById(R.id.btnShowAnyway);
 
+        SharedPreferences prefs = getSharedPreferences("NoDistractPrefs", MODE_PRIVATE);
+        boolean disableShowAnyway = prefs.getBoolean("disableShowAnyway", false);
+        if (disableShowAnyway) {
+            btnShowAnyway.setVisibility(View.GONE);
+        } else {
+            btnShowAnyway.setVisibility(View.VISIBLE);
+        }
+
         btnBack.setOnClickListener(v -> {
             performGlobalAction(GLOBAL_ACTION_BACK);
             removeOverlay();

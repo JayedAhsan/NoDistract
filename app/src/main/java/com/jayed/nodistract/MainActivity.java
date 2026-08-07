@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import androidx.appcompat.app.AppCompatDelegate;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class MainActivity extends Activity {
 
@@ -31,9 +33,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.app_main);
 
         enableButton = findViewById(R.id.btnEnable);
+        ImageButton settingsButton = findViewById(R.id.btnSettings);
         ImageButton infoButton = findViewById(R.id.btnInfo);
         ImageButton sourceButton = findViewById(R.id.btnSource);
         ImageButton developerButton = findViewById(R.id.btnDeveloper);
+
+        settingsButton.setOnClickListener(v -> showSettingsDialog());
 
 
         enableButton.setOnClickListener(v -> {
@@ -80,6 +85,31 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://jayed.me"));
             startActivity(intent);
         });
+    }
+
+    private void showSettingsDialog() {
+        SharedPreferences prefs = getSharedPreferences("NoDistractPrefs", MODE_PRIVATE);
+        boolean disableShowAnyway = prefs.getBoolean("disableShowAnyway", false);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_settings, null);
+        MaterialSwitch switchDisableShowAnyway = dialogView.findViewById(R.id.switchDisableShowAnyway);
+        View layoutDisableShowAnyway = dialogView.findViewById(R.id.layoutDisableShowAnyway);
+
+        switchDisableShowAnyway.setChecked(disableShowAnyway);
+
+        switchDisableShowAnyway.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefs.edit().putBoolean("disableShowAnyway", isChecked).apply();
+        });
+
+        layoutDisableShowAnyway.setOnClickListener(v -> {
+            switchDisableShowAnyway.toggle();
+        });
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.settings)
+                .setView(dialogView)
+                .setPositiveButton(R.string.done, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     @Override
